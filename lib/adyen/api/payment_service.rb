@@ -38,7 +38,11 @@ module Adyen
     #
     class PaymentService < SimpleSOAPClient
       # The Adyen Payment SOAP service endpoint uri.
-      ENDPOINT_URI = 'https://pal-%s.adyen.com/pal/servlet/soap/Payment'
+      if Rails.env.production?
+        ENDPOINT_URI = 'https://1c628ef766d67419-Gympass.pal-%s.adyenpayments.com/pal/servlet/soap/Payment'
+      else
+        ENDPOINT_URI = 'https://pal-%s.adyen.com/pal/servlet/soap/Payment'
+      end
 
       # @see API.generate_billet
       def generate_billet
