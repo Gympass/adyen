@@ -38,6 +38,8 @@ module Adyen
     ACTION_URL = "https://%s/hpp/%s.shtml"
 
     PAYMENT_REQUEST_SIGNATURE_PARAMS = [
+      :brandCode,
+      :countryCode,
       :currency_code,
       :merchant_account,
       :merchant_reference,
