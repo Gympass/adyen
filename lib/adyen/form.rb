@@ -38,20 +38,28 @@ module Adyen
     ACTION_URL = "https://%s/hpp/%s.shtml"
 
     PAYMENT_REQUEST_SIGNATURE_PARAMS = [
-      :brandCode,
-      :countryCode,
-      :currency_code,
-      :merchant_account,
-      :merchant_reference,
-      :payment_amount,
-      :session_validity,
-      :ship_before_date,
-      :skin_code,
-      :shopper_locale,
-      :recurring_contract,
-      :shopper_email,
-      :shopper_reference,
-      :allowed_methods
+      :'merchantReference',
+      :'paymentAmount',
+      :'currencyCode',
+      :'shipBeforeDate',
+      :'skinCode',
+      :'merchantAccount',
+      :'sessionValidity',
+      :'merchantReturnData',
+      :'shopperEmail',
+      :'shopperReference',
+      :'allowedMethods',
+      :'blockedMethods',
+      :'offset',
+      :'shopperStatement',
+      :'recurringContract',
+      :'billingAddressType',
+      :'deliveryAddressType',
+      :'brandCode',
+      :'countryCode',
+      :'shopperLocale',
+      :'orderData',
+      :'offerEmail'
     ].sort_by(&:to_s)
 
     # Returns the DOMAIN of the Adyen payment system, adjusted for an Adyen environment.
