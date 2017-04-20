@@ -62,6 +62,17 @@ module Adyen
       :skin_code
     ].sort_by(&:to_s)
 
+    PAYMENT_RESPONSE_SIGNATURE_PARAMS = [
+      :authResult,
+      :merchantReference,
+      :merchantReturnData,
+      :paymentMethod,
+      :pspReference,
+      :reason,
+      :shopperLocale,
+      :skinCode
+    ].sort_by(&:to_s)
+
     # Returns the DOMAIN of the Adyen payment system, adjusted for an Adyen environment.
     #
     # @param [String] environment The Adyen environment to use. This parameter can be
@@ -380,12 +391,18 @@ module Adyen
     ######################################################
 
     # Generates the string for which the redirect signature is calculated, using the request paramaters.
-    # @param [Hash] params A hash of HTTP GET parameters for the redirect request.
+    # @param [Hash] parameters A hash of HTTP GET parameters for the redirect request.
     # @return [String] The signature string.
-    def redirect_signature_string(params)
-      params['authResult'].to_s + params['pspReference'].to_s + params['merchantReference'].to_s +
-        params['skinCode'].to_s + params['merchantReturnData'].to_s
+    def calculate_redirect_signature_string(parameters)
+      signature_params = PAYMENT_RESPONSE_SIGNATURE_PARAMS.reduce({}) do |hash, param|
+        value = parameters[param]
+        hash[Adyen::Util.camelize(param.to_s)] = Adyen::Signature::escape_value(value.to_s) if parameters.key?(param)
+        hash
+      end
+
+      (signature_params.keys + signature_params.values).join(':')
     end
+
 
     # Computes the redirect signature using the request parameters, so that the
     # redirect can be checked for forgery.
@@ -399,7 +416,7 @@ module Adyen
     def redirect_signature(params, shared_secret = nil)
       shared_secret ||= Adyen.configuration.form_skin_shared_secret_by_code(params['skinCode'])
       raise ArgumentError, "Cannot compute redirect signature with empty shared_secret" if shared_secret.to_s.empty?
-      Adyen::Util.hmac_base64(shared_secret, redirect_signature_string(params))
+      Adyen::Util.hmac_base64(shared_secret, calculate_redirect_signature_string(params))
     end
 
     # Checks the redirect signature for this request by calcultating the signature from
