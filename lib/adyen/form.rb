@@ -53,7 +53,7 @@ module Adyen
       :order_data,
       :payment_amount,
       :recurring_contract,
-      :res_url,
+      :resURL,
       :session_validity,
       :ship_before_date,
       :shopper_email,
