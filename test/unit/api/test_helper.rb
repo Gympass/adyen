@@ -115,14 +115,6 @@ module APISpecHelper
       end
     end
 
-    def it_should_have_shortcut_methods_for_params_on_the_response
-      it "provides shortcut methods, on the response object, for all entries in the #params hash" do
-        @response.params.each do |key, value|
-          @response.send(key).must_equal value
-        end
-      end
-    end
-
     def it_should_return_params_for_each_xml_backend(params)
       for_each_xml_backend do
         it "returns a hash with parsed response details" do
@@ -176,7 +168,11 @@ module APISpecHelper
           @post.soap_action.must_equal soap_action
         end
 
-        it_should_have_shortcut_methods_for_params_on_the_response
+        it "provides shortcut methods, on the response object, for all entries in the #params hash" do
+          params = @response.params
+          result = params.keys.map { |key| @response.send(key) }
+          result.must_equal params.values
+        end
 
         instance_eval(&block)
       end
@@ -332,6 +328,12 @@ LIST_RESPONSE = <<EOS
             <elv xsi:nil="true"/>
             <name/>
             <recurringDetailReference>RecurringDetailReference1</recurringDetailReference>
+            <additionalData>
+              <entry>
+                <key xsi:type="xsd:string">newAlias</key>
+                <value xsi:type="xsd:string">123456</value>
+              </entry>
+            </additionalData>
             <variant>mc</variant>
           </RecurringDetail>
           <RecurringDetail>
@@ -349,6 +351,12 @@ LIST_RESPONSE = <<EOS
             <elv xsi:nil="true"/>
             <name/>
             <recurringDetailReference>RecurringDetailReference2</recurringDetailReference>
+            <additionalData>
+              <entry>
+                <key xsi:type="xsd:string">newAlias</key>
+                <value xsi:type="xsd:string">123456</value>
+              </entry>
+            </additionalData>
             <variant>IDEAL</variant>
           </RecurringDetail>
           <RecurringDetail>
@@ -364,6 +372,12 @@ LIST_RESPONSE = <<EOS
             <creationDate>2009-10-27T11:26:22.216+01:00</creationDate>
             <name/>
             <recurringDetailReference>RecurringDetailReference3</recurringDetailReference>
+            <additionalData>
+              <entry>
+                <key xsi:type="xsd:string">newAlias</key>
+                <value xsi:type="xsd:string">123456</value>
+              </entry>
+            </additionalData>
             <variant>elv</variant>
           </RecurringDetail>
         </details>

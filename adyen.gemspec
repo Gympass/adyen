@@ -27,9 +27,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency('minitest', '~> 5.0')
   s.add_development_dependency('mocha')
   s.add_development_dependency('sinatra')
-  s.add_development_dependency('poltergeist')
+  s.add_development_dependency('capybara-webkit')
 
-  s.add_development_dependency('railties', '>= 3.2', '< 5')
+  s.add_development_dependency('railties', '>= 3.2', '< 6.0')
   s.add_development_dependency('nokogiri', '>= 1.6.8')
 
   s.requirements << 'Having Nokogiri installed will speed up XML handling when using the SOAP API.'

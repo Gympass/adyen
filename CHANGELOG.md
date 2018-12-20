@@ -2,9 +2,20 @@
 
 The following changes have been made to the library over the years. Pleae add an entry to this file as part of your pull requests.
 
-#### Unrelease changes
+#### Unreleased changes
 
-- Add `shopper_statement` option to `Adyen::APP`, allowing to generate Billets with custom payment instructions.
+#### Version 2.4.0
+
+- Add `additionalData` to response from `listRecurringDetails` recurring payment SOAP endpoint.
+- Updates to the development & test setup for this gem.
+
+#### Version 2.3.0
+
+- Add support for merchant-specific endpoints.
+- Add `shopper_statement` option to `Adyen::HPP`, allowing to generate Billets with custom payment instructions.
+- Make sure the unique index created by the notification model generator includes `merchant_account_code`
+- Make `refusal_resaon` availble as a response field for failed requests.
+- Updates to the testing infrastructure
 
 #### Version 2.2.0
 
